@@ -2,9 +2,12 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var port = process.env.PORT || 3000;
+var bodyParser = require('body-parser');
+var treats = require('./routes/treats')
 
 /*** Build out a module to manage our treats requests. ***/
-
+app.use(bodyParser.urlencoded({extended: true}));
+app.use('/treats', treats); 
 
 
 

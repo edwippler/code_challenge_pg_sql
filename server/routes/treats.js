@@ -29,7 +29,7 @@ router.get('/', function(req, res){
 });//end get path
 
 router.post('/', function(req, res){
-  var treat = req.body
+  var treat = req.body;
   pool.connect(function(err, client, done){
     if (err) {
       console.log('error connecting to db');
@@ -41,6 +41,26 @@ router.post('/', function(req, res){
           console.log('error making query');
         }else {
           res.sendStatus(201);
+        }
+      }); //end of query
+    }
+  })
+});//end get path
+
+router.get('/search:/name', function(req, res){
+  var name = req.params.name;
+  console.log(treat);
+  pool.connect(function(err, client, done){
+    if (err) {
+      console.log('error connecting to db');
+      res.sendStatus(500);
+    }else{
+      client.query('SELECT * FROM treats WHERE name ILIKE $1 ;', [treat.name], function(err, result){
+        done();
+        if (err) {
+          console.log('error making query');
+        }else {
+          res.send(result.rows);
         }
       }); //end of query
     }

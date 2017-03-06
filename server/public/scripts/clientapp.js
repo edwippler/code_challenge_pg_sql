@@ -21,6 +21,17 @@ $(document).ready(function () {
     postTreat(newTreat);
   });
 
+  /**--------- Search Event Handler-----**/
+  $('#searchButton').on('click', function(event){
+    event.preventDefault();
+    var searchTreat = $('#search').val();
+    var treatObject = {
+      name: searchTreat
+    };
+    console.log(treatObject);
+    searchTreats(treat);
+  });
+
   /**---------- AJAX Functions ----------**/
 
   // GET /treats
@@ -49,6 +60,21 @@ $(document).ready(function () {
       console.log('POST /treats sent ', treat);
       clearDom();
       getTreats();
+    });
+  }
+
+  // GET /treats/search
+  function searchTreats(treat) {
+    $.ajax({
+      method: 'GET',
+      url: '/treats/search' + treat
+    })
+    .done(function (treatArray) {
+      console.log('GET /treats returned ', treatArray);
+
+      $.each(treatArray, function (index, treat) {
+        appendTreat(treat);
+      });
     });
   }
 
